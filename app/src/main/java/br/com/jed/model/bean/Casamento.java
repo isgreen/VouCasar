@@ -18,4 +18,59 @@ public class Casamento {
     private Usuario usuario;
     private Situacao situacao;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNomeCasal() {
+        return nomeCasal;
+    }
+
+    public void setNomeCasal(String nomeCasal) {
+        this.nomeCasal = nomeCasal;
+    }
+
+    public Date getDataCerimonia() {
+        return dataCerimonia;
+    }
+
+    public void setDataCerimonia(Date dataCerimonia) {
+        this.dataCerimonia = dataCerimonia;
+    }
+
+    public String getLocalCerimonia() {
+        return localCerimonia;
+    }
+
+    public void setLocalCerimonia(String localCerimonia) {
+        this.localCerimonia = localCerimonia;
+    }
+
+    public Blob getFotoCasal() {
+        return fotoCasal;
+    }
+
+    public void setFotoCasal(Blob fotoCasal) {
+        this.fotoCasal = fotoCasal;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Situacao getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(Situacao situacao) {
+        this.situacao = situacao;
+    }
 }
