@@ -24,7 +24,7 @@
             android:layout_marginBottom="50dp"
             android:text="@string/titulo_login"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:textSize="50dp"/>
 
@@ -43,7 +43,7 @@
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:hint="@string/text_email"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/edtSenha"
@@ -54,14 +54,14 @@
                 android:layout_marginTop="5dp"
                 android:ems="10"
                 android:inputType="textPassword"
-                android:hint="@string/text_senha"/>
+                android:hint="@string/text_senha" />
 
             <Button
                 android:id="@+id/btnEntrar"
                 android:layout_width="196dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="30dp"
-                android:background="@color/colorAccent"
+                android:background="@color/colorPrimary"
                 android:text="@string/text_entrar"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"

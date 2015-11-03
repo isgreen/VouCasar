@@ -11,9 +11,10 @@ import br.com.jed.enumaretors.Situacao;
 public class Casamento {
 
     private int id;
-    private String nomeCasal;
+    private String nomeNoivo;
+    private String nomeNoiva;
     private Date dataCerimonia;
-    private String localCerimonia;
+    private String enderecoCerimonia;
     private Blob fotoCasal;
     private Usuario usuario;
     private Situacao situacao;
@@ -26,12 +27,20 @@ public class Casamento {
         this.id = id;
     }
 
-    public String getNomeCasal() {
-        return nomeCasal;
+    public String getNomeNoivo() {
+        return nomeNoivo;
     }
 
-    public void setNomeCasal(String nomeCasal) {
-        this.nomeCasal = nomeCasal;
+    public void setNomeNoivo(String nomeNoivo) {
+        this.nomeNoivo = nomeNoivo;
+    }
+
+    public String getNomeNoiva() {
+        return nomeNoiva;
+    }
+
+    public void setNomeNoiva(String nomeNoiva) {
+        this.nomeNoiva = nomeNoiva;
     }
 
     public Date getDataCerimonia() {
@@ -42,12 +51,12 @@ public class Casamento {
         this.dataCerimonia = dataCerimonia;
     }
 
-    public String getLocalCerimonia() {
-        return localCerimonia;
+    public String getEnderecoCerimonia() {
+        return enderecoCerimonia;
     }
 
-    public void setLocalCerimonia(String localCerimonia) {
-        this.localCerimonia = localCerimonia;
+    public void setEnderecoCerimonia(String enderecoCerimonia) {
+        this.enderecoCerimonia = enderecoCerimonia;
     }
 
     public Blob getFotoCasal() {

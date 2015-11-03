@@ -2,9 +2,10 @@ package br.com.jed.voucasar;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class ActivityLogin extends AppCompatActivity {
@@ -16,11 +17,19 @@ public class ActivityLogin extends AppCompatActivity {
 
         //Mudando a fonte do titulo da tela de login
         Typeface fonte = Typeface.createFromAsset(getAssets(), "fonts/font_casamento.otf");
-        TextView txtTitulo=(TextView) findViewById(R.id.txtTitulo);
+        TextView txtTitulo = (TextView) findViewById(R.id.txtTitulo);
         txtTitulo.setTypeface(fonte);
 
         //Vai chamar um WebClient, passando o Usario por padrao
         //Se for valido, a linha abaixo será executada
-//        startActivity(new Intent(this, ActivityPrincipal.class));
+
+        Button btnEntrar = (Button) findViewById(R.id.btnEntrar);
+        btnEntrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ActivityLogin.this, ActivityPrincipal.class));
+            }
+        });
+
     }
 }
