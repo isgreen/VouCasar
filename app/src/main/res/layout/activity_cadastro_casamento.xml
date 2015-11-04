@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,108 +29,173 @@
             android:textColor="@android:color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
-
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/clFotoCasal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tbFiltro">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/tbFiltro"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="110dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imgBtnFotoCasal"
-                    android:layout_width="match_parent"
-                    android:layout_height="96dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/ic_foto"
-                    android:text="Teste"
-                    android:visibility="gone" />
+                android:id="@+id/llFotoCasal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/cinzaClaro">
 
                 <ImageView
                     android:id="@+id/imgVwFotoCasal"
                     android:layout_width="match_parent"
-                    android:layout_height="96dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/ic_foto"
-                    android:clickable="true" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:text="@string/text_alterar_foto" />
-
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_foto_casal" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_nome_noivo" />
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/llFotoCasal">
 
-            <EditText
-                android:id="@+id/edtNomeNoivo"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_noivo"
-                android:inputType="text" />
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_below="@+id/clFotoCasal"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/activity_vertical_margin"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:paddingTop="@dimen/activity_vertical_margin">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_nome_noiva" />
+                        <!--<LinearLayout-->
+                        <!--android:layout_width="100dp"-->
+                        <!--android:layout_height="110dp"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:layout_marginBottom="@dimen/activity_horizontal_margin"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:orientation="vertical">-->
 
-            <EditText
-                android:id="@+id/edtNomeNoiva"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_favorito"
-                android:inputType="text" />
+                        <!--<ImageButton-->
+                        <!--android:id="@+id/imgBtnFotoCasal"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="96dp"-->
+                        <!--android:adjustViewBounds="true"-->
+                        <!--android:background="@drawable/ic_foto"-->
+                        <!--android:text="Teste"-->
+                        <!--android:visibility="gone" />-->
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_data_casamento" />
+                        <!--<ImageView-->
+                        <!--android:id="@+id/imgVwFotoCasal"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="96dp"-->
+                        <!--android:adjustViewBounds="true"-->
+                        <!--android:background="@drawable/ic_foto"-->
+                        <!--android:clickable="true" />-->
 
-            <EditText
-                android:id="@+id/edtDataCasamento"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_evento"
-                android:inputType="date" />
+                        <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/text_alterar_foto" />-->
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_endereco_cerimonia" />
+                        <!--</LinearLayout>-->
 
-            <EditText
-                android:id="@+id/edtEnderecoCerimonia"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_local"
-                android:inputType="text" />
 
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="1">
+
+                            <TableRow android:layout_width="fill_parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="10dp"
+                                    android:src="@drawable/ic_noivo" />
+
+                                <EditText
+                                    android:id="@+id/edtNomeNoivo"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:hint="@string/text_nome_noivo" />
+                            </TableRow>
+
+
+                            <TableRow android:layout_width="fill_parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="10dp"
+                                    android:src="@drawable/ic_favorito" />
+
+                                <EditText
+                                    android:id="@+id/edtNomeNoiva"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:hint="@string/text_nome_noiva" />
+                            </TableRow>
+
+                            <TableRow android:layout_width="fill_parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="10dp"
+                                    android:src="@drawable/ic_evento" />
+
+                                <EditText
+                                    android:id="@+id/edtDataCasamento"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:hint="@string/text_data_casamento"
+                                    android:inputType="date" />
+                            </TableRow>
+
+                            <TableRow android:layout_width="fill_parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="10dp"
+                                    android:src="@drawable/ic_local" />
+
+                                <EditText
+                                    android:id="@+id/edtEnderecoCerimonia"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:hint="@string/text_endereco_cerimonia" />
+                            </TableRow>
+                        </TableLayout>
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabFotoCasal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_camera"
+            app:layout_anchor="@id/llFotoCasal"
+            app:layout_anchorGravity="bottom|right|end" />
+    </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>
