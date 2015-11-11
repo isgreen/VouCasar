@@ -1,28 +1,42 @@
 package br.com.jed.fragments;
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.jed.interfaces.FragmentBase;
+import br.com.jed.model.bean.Presente;
 import br.com.jed.voucasar.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-public class FragmentPresentes extends Fragment {
+public class FragmentPresentes extends Fragment implements FragmentBase {
 
     private ListView mLvPresente;
+    private LinearLayout mLlCadastroPresente;
+    private EditText mEdtDescricaoPresente;
+    private EditText mEdtValorPresente;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_presentes, container, false);
         mLvPresente = (ListView) view.findViewById(R.id.lvPresente);
+        mLlCadastroPresente = (LinearLayout) view.findViewById(R.id.llCadastroPresente);
+        mEdtDescricaoPresente = (EditText) view.findViewById(R.id.edtDescricaoPresente);
+        mEdtValorPresente = (EditText) view.findViewById(R.id.edtValorPresente);
 
         return view;
     }
@@ -42,6 +56,46 @@ public class FragmentPresentes extends Fragment {
         mLvPresente.setAdapter(arrayAdapter);
     }
 
+    @Override
+    public int alterarVisibilidade() {
+        if (mLlCadastroPresente.getVisibility() == View.GONE) {
+            mLlCadastroPresente.setVisibility(View.VISIBLE);
+        }
+        else
+            mLlCadastroPresente.setVisibility(View.GONE);
+
+        return mLlCadastroPresente.getVisibility();
+    }
+
+    @Override
+    public boolean salvarCadastro() {
+        Presente presente;
+
+        if (validarCampos()) {
+            presente = getPresenteFromUI();
+            limparCampos();
+        }
+        return true;
+    }
+
+    private void limparCampos() {
+        mEdtDescricaoPresente.setText("");
+        mEdtValorPresente.setText("");
+    }
+
+    private Presente getPresenteFromUI() {
+        Presente presente = new Presente();
+
+        presente.setDescricao(mEdtDescricaoPresente.getText().toString());
+        presente.setValor(Float.valueOf(mEdtValorPresente.getText().toString()));
+
+        return presente;
+    }
+
+    @Override
+    public boolean validarCampos() {
+        return true;
+    }
     //    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 //    private static final String ARG_PARAM1 = "param1";

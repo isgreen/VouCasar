@@ -1,68 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="br.com.jed.voucasar.ActivityCadastroCasamento">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tbFiltro"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:minHeight="?attr/actionBarSize">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <ImageButton
-            android:id="@+id/btnVoltar"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tbCasamento"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            android:src="@drawable/ic_voltar" />
+            android:elevation="4dp"
+            android:minHeight="?attr/actionBarSize">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/text_cadastro_casamento"
-            android:textColor="@android:color/white"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-    </android.support.v7.widget.Toolbar>
+            <!--<ImageButton-->
+            <!--android:id="@+id/btnVoltar"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="?attr/colorPrimary"-->
+            <!--android:src="@drawable/ic_voltar" />-->
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/clFotoCasal"
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:text="@string/text_cadastro_casamento"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="20dp"-->
+            <!--android:textStyle="bold" />-->
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tbFiltro">
+        android:layout_below="@id/tbCasamento">
 
-        <LinearLayout
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/clFotoCasal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/llFotoCasal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/cinzaClaro">
-
-                <ImageView
-                    android:id="@+id/imgVwFotoCasal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_foto_casal" />
-            </LinearLayout>
+            android:layout_below="@id/tbCasamento">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <ScrollView
+                <LinearLayout
+                    android:id="@+id/llFotoCasal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/llFotoCasal">
+                    android:layout_height="wrap_content"
+                    android:background="@color/cinzaClaro">
+
+                    <ImageView
+                        android:id="@+id/imgVwFotoCasal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_foto_casal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -128,7 +135,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginTop="10dp"
-                                    android:hint="@string/text_nome_noivo" />
+                                    android:hint="@string/text_nome_noivo"
+                                    android:inputType="text" />
                             </TableRow>
 
 
@@ -146,7 +154,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginTop="10dp"
-                                    android:hint="@string/text_nome_noiva" />
+                                    android:hint="@string/text_nome_noiva"
+                                    android:inputType="text" />
                             </TableRow>
 
                             <TableRow android:layout_width="fill_parent">
@@ -158,7 +167,7 @@
                                     android:src="@drawable/ic_evento" />
 
                                 <EditText
-                                    android:id="@+id/edtDataCasamento"
+                                    android:id="@+id/edtDataCerimonia"
                                     android:layout_width="fill_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
@@ -181,21 +190,22 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginTop="10dp"
-                                    android:hint="@string/text_endereco_cerimonia" />
+                                    android:hint="@string/text_endereco_cerimonia"
+                                    android:inputType="text" />
                             </TableRow>
                         </TableLayout>
                     </LinearLayout>
-                </ScrollView>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabFotoCasal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_camera"
-            app:layout_anchor="@id/llFotoCasal"
-            app:layout_anchorGravity="bottom|right|end" />
-    </android.support.design.widget.CoordinatorLayout>
-</RelativeLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabFotoCasal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_camera"
+                app:layout_anchor="@id/llFotoCasal"
+                app:layout_anchorGravity="bottom|right|end" />
+        </android.support.design.widget.CoordinatorLayout>
+    </ScrollView>
+</LinearLayout>

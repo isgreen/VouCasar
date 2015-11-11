@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,12 +14,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import br.com.jed.fragments.FragmentConvidados;
 import br.com.jed.fragments.FragmentPresentes;
 
 public class ActivityPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Fragment mFragmentSelecionado;
+    private LinearLayout mLlCadastroPresente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +40,6 @@ public class ActivityPrincipal extends AppCompatActivity
 
         //E no onResume(), deve TALVEZ seja iniciado o Fragment que o usuario selecionou no navigation drawer.
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -53,12 +50,14 @@ public class ActivityPrincipal extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void instanciarFragment(Fragment fragmentSelecionado) {
+    private void instanciarFragment(Fragment fragment) {
+        mFragmentSelecionado = fragment;
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        transaction.replace(R.id.rlPrincipal, fragmentSelecionado);
+        transaction.replace(R.id.rlPrincipal, mFragmentSelecionado);
+        transaction.setCustomAnimations(android.R.anim.accelerate_decelerate_interpolator, android.R.anim.slide_out_right);
 //        transaction.add(R.id.frgPrincipal, fragmentPresentes);
 
         transaction.commit();
@@ -76,7 +75,8 @@ public class ActivityPrincipal extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_principal, menu);
+        getMenuInflater().inflate(R.menu.menu_activity_principal, menu);
+//        menu.getItem(R.id.men_salvarCadastro);
         return true;
     }
 
@@ -84,8 +84,27 @@ public class ActivityPrincipal extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.men_abreCadastro:
+                if (mFragmentSelecionado.getClass() == FragmentPresentes.class) {
+                    if (((FragmentPresentes)mFragmentSelecionado).alterarVisibilidade() == View.VISIBLE)
+                        item.setIcon(R.drawable.ic_fechar);
+                    else
+                        item.setIcon(R.drawable.ic_adicionar);
+                } else {
+                    if (((FragmentConvidados)mFragmentSelecionado).alterarVisibilidade() == View.VISIBLE)
+                        item.setIcon(R.drawable.ic_fechar);
+                    else
+                        item.setIcon(R.drawable.ic_adicionar);
+                }
+                break;
+            case R.id.men_salvarCadastro:
+                if (mFragmentSelecionado.getClass() == FragmentPresentes.class) {
+                    if (((FragmentPresentes)mFragmentSelecionado).salvarCadastro()){
+                        //TODO implementar
+                    }
+                }
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -105,6 +124,9 @@ public class ActivityPrincipal extends AppCompatActivity
                 break;
             case R.id.nav_casamento:
                 startActivity(new Intent(this, ActivityCadastroCasamento.class));
+                break;
+            case R.id.nav_usuario:
+                startActivity(new Intent(this, ActivityCadastroUsuario.class));
                 break;
         }
 

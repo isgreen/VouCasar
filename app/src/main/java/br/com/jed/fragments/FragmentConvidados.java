@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import br.com.jed.voucasar.R;
 public class FragmentConvidados extends Fragment {
 
     private ListView mLvConvidado;
+    private LinearLayout mLlCadastroConvidado;
 
     public FragmentConvidados() {
         // Required empty public constructor
@@ -31,6 +33,7 @@ public class FragmentConvidados extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_convidados, container, false);
         mLvConvidado = (ListView) view.findViewById(R.id.lvConvidado);
+        mLlCadastroConvidado = (LinearLayout) view.findViewById(R.id.llCadastroConvidado);
 
         return view;
     }
@@ -50,5 +53,15 @@ public class FragmentConvidados extends Fragment {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getView().getContext(), android.R.layout.simple_list_item_1, testeLista);
 
         mLvConvidado.setAdapter(arrayAdapter);
+    }
+
+    public int alterarVisibilidade() {
+        if (mLlCadastroConvidado.getVisibility() == View.GONE) {
+            mLlCadastroConvidado.setVisibility(View.VISIBLE);
+        }
+        else
+            mLlCadastroConvidado.setVisibility(View.GONE);
+
+        return mLlCadastroConvidado.getVisibility();
     }
 }

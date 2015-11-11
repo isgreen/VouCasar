@@ -1,5 +1,6 @@
 package br.com.jed.model.bean;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.util.Date;
 
@@ -8,14 +9,14 @@ import br.com.jed.enumaretors.Situacao;
 /**
  * Created by Wolfstein on 28/10/2015.
  */
-public class Casamento {
+public class Casamento implements Serializable {
 
     private int id;
     private String nomeNoivo;
     private String nomeNoiva;
     private Date dataCerimonia;
     private String enderecoCerimonia;
-    private Blob fotoCasal;
+    private byte[] fotoCasal;
     private Usuario usuario;
     private Situacao situacao;
 
@@ -59,11 +60,11 @@ public class Casamento {
         this.enderecoCerimonia = enderecoCerimonia;
     }
 
-    public Blob getFotoCasal() {
+    public byte[] getFotoCasal() {
         return fotoCasal;
     }
 
-    public void setFotoCasal(Blob fotoCasal) {
+    public void setFotoCasal(byte[] fotoCasal) {
         this.fotoCasal = fotoCasal;
     }
 

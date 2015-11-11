@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/men_abreCadastro"
+        android:icon="@drawable/ic_adicionar"
+        android:orderInCategory="100" app:showAsAction="always"
+        tools:ignore="MenuTitle" />
+
+    <item android:id="@+id/men_salvarCadastro"
+        android:icon="@drawable/ic_salvar"
+        android:orderInCategory="100" app:showAsAction="always"
+        tools:ignore="MenuTitle" />
+</menu>

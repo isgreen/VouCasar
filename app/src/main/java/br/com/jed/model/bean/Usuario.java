@@ -1,14 +1,16 @@
 package br.com.jed.model.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Wolfstein on 28/10/2015.
  */
-public class Usuario {
+public class Usuario implements Serializable {
 
     private int id;
     private String email;
-    private String senha_privada;
-    private String senha_grupo;
+    private String senhaPrivada;
+    private String senhaConvidados;
 
     public int getId() {
         return id;
@@ -26,19 +28,19 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getSenha_privada() {
-        return senha_privada;
+    public String getSenhaPrivada() {
+        return senhaPrivada;
     }
 
-    public void setSenha_privada(String senha_privada) {
-        this.senha_privada = senha_privada;
+    public void setSenhaPrivada(String senhaPrivada) {
+        this.senhaPrivada = senhaPrivada;
     }
 
-    public String getSenha_grupo() {
-        return senha_grupo;
+    public String getSenhaConvidados() {
+        return senhaConvidados;
     }
 
-    public void setSenha_grupo(String senha_grupo) {
-        this.senha_grupo = senha_grupo;
+    public void setSenhaConvidados(String senhaConvidados) {
+        this.senhaConvidados = senhaConvidados;
     }
 }

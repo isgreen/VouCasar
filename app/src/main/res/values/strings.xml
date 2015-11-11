@@ -21,6 +21,17 @@
     <string name="text_descricao">Descrição</string>
     <string name="text_valor">Valor</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_senha_privada">Senha privada</string>
+    <string name="text_senha_convidados">Senha dos convidados</string>
+    <string name="titulo_criando_usuario">Criando novo usuário</string>
+
+    <!--Mensagens-->
+    <string name="msg_campo_nulo">Campos obrigatórios não preenchidos</string>
+    <string name="msg_campo_obrigatorio">Campo obrigatório</string>
+    <string name="msg_senha_igual">A senha privada não deve ser igual a senha dos convidados</string>
+    <string name="titulo_alterando_usuario">Alterando usuário</string>
+    <string name="titulo_criando_casamento">Criando novo casamento</string>
+
 </resources>
