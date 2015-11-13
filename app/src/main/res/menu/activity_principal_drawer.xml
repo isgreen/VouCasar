@@ -8,7 +8,9 @@
             android:title="Mostrar no mapa" />
     </group>
 
-    <item android:title="Controles do casal">
+    <item
+        android:id="@+id/nav_grpControleCasal"
+        android:title="Controles do casal">
         <menu>
             <item android:id="@+id/nav_convidados" android:icon="@drawable/ic_convidados"
                 android:title="Convidados" />

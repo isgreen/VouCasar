@@ -3,13 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/men_abreCadastro"
-        android:icon="@drawable/ic_adicionar"
-        android:orderInCategory="100" app:showAsAction="always"
-        tools:ignore="MenuTitle" />
-
     <item android:id="@+id/men_salvarCadastro"
         android:icon="@drawable/ic_salvar"
         android:orderInCategory="100" app:showAsAction="always"
-        tools:ignore="MenuTitle" />
+        tools:ignore="MenuTitle"
+        android:visible="false"/>
+
+    <item android:id="@+id/men_abreCadastro"
+        android:icon="@drawable/ic_expandir"
+        android:orderInCategory="100" app:showAsAction="always"
+        tools:ignore="MenuTitle"
+        android:visible="false"/>
+
 </menu>

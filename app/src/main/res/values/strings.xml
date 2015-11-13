@@ -33,5 +33,7 @@
     <string name="msg_senha_igual">A senha privada não deve ser igual a senha dos convidados</string>
     <string name="titulo_alterando_usuario">Alterando usuário</string>
     <string name="titulo_criando_casamento">Criando novo casamento</string>
+    <string name="text_sobrenome">Sobrenome</string>
+    <string name="text_nome_convidado">Nome do convidado</string>
 
 </resources>

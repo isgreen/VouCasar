@@ -26,21 +26,21 @@
                 android:id="@+id/edtNomeConvidado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/text_descricao"
+                android:hint="@string/text_nome_convidado"
                 android:inputType="textCapWords" />
 
             <EditText
                 android:id="@+id/edtSobrenomeConvidado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/text_valor"
+                android:hint="@string/text_sobrenome"
                 android:inputType="textCapWords" />
 
             <EditText
                 android:id="@+id/edtEmailConvidado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/text_valor"
+                android:hint="@string/text_email"
                 android:inputType="textEmailAddress" />
         </LinearLayout>
 

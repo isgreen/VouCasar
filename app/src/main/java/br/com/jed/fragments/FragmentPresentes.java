@@ -1,12 +1,17 @@
 package br.com.jed.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,6 +22,8 @@ import java.util.List;
 
 import br.com.jed.interfaces.FragmentBase;
 import br.com.jed.model.bean.Presente;
+import br.com.jed.util.Util;
+import br.com.jed.validators.ValidadorUI;
 import br.com.jed.voucasar.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,6 +44,19 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
         mLlCadastroPresente = (LinearLayout) view.findViewById(R.id.llCadastroPresente);
         mEdtDescricaoPresente = (EditText) view.findViewById(R.id.edtDescricaoPresente);
         mEdtValorPresente = (EditText) view.findViewById(R.id.edtValorPresente);
+
+        mLvPresente.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getView().getContext(), R.color.colorAccent));
+//                    getActivity().getActionBar().(ContextCompat.getColor(getView().getContext(), R.color.cinzaClaro));
+                }
+
+                return false;
+            }
+        });
 
         return view;
     }
@@ -72,18 +92,20 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
         Presente presente;
 
         if (validarCampos()) {
-            presente = getPresenteFromUI();
+            presente = (Presente) getDadosFromUI();
             limparCampos();
         }
         return true;
     }
 
-    private void limparCampos() {
+    @Override
+    public void limparCampos() {
         mEdtDescricaoPresente.setText("");
         mEdtValorPresente.setText("");
     }
 
-    private Presente getPresenteFromUI() {
+    @Override
+    public Object getDadosFromUI() {
         Presente presente = new Presente();
 
         presente.setDescricao(mEdtDescricaoPresente.getText().toString());
@@ -94,9 +116,22 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
 
     @Override
     public boolean validarCampos() {
-        return true;
+        boolean camposValidos;
+        String mensagemErro = null, mensagemCampo;
+        EditText[] campos = {mEdtDescricaoPresente, mEdtValorPresente};
+
+        mensagemCampo = getResources().getText(R.string.msg_campo_obrigatorio).toString();
+        if (!(camposValidos = ValidadorUI.validarCamposNulos(campos, mensagemCampo))) {
+            mensagemErro = getResources().getText(R.string.msg_campo_nulo).toString();
+        }
+
+        if (!camposValidos)
+            Util.showSnackMessage(getActivity(), getView(), mensagemErro);
+
+        return camposValidos;
     }
-    //    // TODO: Rename parameter arguments, choose names that match
+
+//    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 //    private static final String ARG_PARAM1 = "param1";
 //    private static final String ARG_PARAM2 = "param2";

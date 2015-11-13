@@ -9,4 +9,8 @@ public interface FragmentBase {
     boolean salvarCadastro();
 
     boolean validarCampos();
+
+    void limparCampos();
+
+    Object getDadosFromUI();
 }

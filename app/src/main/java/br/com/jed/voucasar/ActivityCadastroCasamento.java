@@ -58,8 +58,8 @@ public class ActivityCadastroCasamento extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro_casamento);
         ButterKnife.bind(this);
 
-        mCasamento = (Casamento) getIntent().getSerializableExtra("casamentoMarcado");
-        mUsuarioLogado = (Usuario) getIntent().getSerializableExtra("usuarioLogado");
+        mCasamento = (Casamento) getIntent().getSerializableExtra("CasamentoMarcado");
+        mUsuarioLogado = (Usuario) getIntent().getSerializableExtra("UsuarioLogado");
 
         mTbCasamento.setNavigationIcon(R.drawable.ic_confirmar);
         mTbCasamento.setTitle(R.string.titulo_criando_casamento);

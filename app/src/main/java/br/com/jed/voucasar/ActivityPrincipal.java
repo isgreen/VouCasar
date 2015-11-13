@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,16 +14,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
+import br.com.jed.enumaretors.TipoUsuario;
 import br.com.jed.fragments.FragmentConvidados;
 import br.com.jed.fragments.FragmentPresentes;
+import br.com.jed.model.bean.Usuario;
 
 public class ActivityPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Usuario mUsuarioSelecionado;
+    private TipoUsuario mTipoUsuario;
+
     private Fragment mFragmentSelecionado;
-    private LinearLayout mLlCadastroPresente;
+    private int mLayoutIsVisible = View.GONE;
+    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,9 @@ public class ActivityPrincipal extends AppCompatActivity
         // Aqui provavelmente será inicializado um fragment, com a lista de presentes, pois ela deve
         // aparecer tanto para o casal, como para o convidado.
 
+        mUsuarioSelecionado = (Usuario) getIntent().getSerializableExtra("UsuarioLogado");
+        mTipoUsuario = (TipoUsuario) getIntent().getSerializableExtra("TipoUsuario");
+
         instanciarFragment(new FragmentPresentes());
 
         //E no onResume(), deve TALVEZ seja iniciado o Fragment que o usuario selecionou no navigation drawer.
@@ -46,8 +53,15 @@ public class ActivityPrincipal extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
+
+        if (mTipoUsuario == TipoUsuario.CONVIDADO)
+            esconderItensNavigation();
+    }
+
+    private void esconderItensNavigation() {
+        mNavigationView.getMenu().findItem(R.id.nav_grpControleCasal).setVisible(false);
     }
 
     private void instanciarFragment(Fragment fragment) {
@@ -76,36 +90,50 @@ public class ActivityPrincipal extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_principal, menu);
-//        menu.getItem(R.id.men_salvarCadastro);
+
+        if (mTipoUsuario == TipoUsuario.CASAL)
+            menu.findItem(R.id.men_abreCadastro).setVisible(true);
+
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (mLayoutIsVisible == View.VISIBLE) {
+            menu.findItem(R.id.men_salvarCadastro).setVisible(true);
+//            if (mTipoUsuario == TipoUsuario.CASAL)
+                menu.findItem(R.id.men_abreCadastro).setIcon(R.drawable.ic_recolher);
+        } else {
+            menu.findItem(R.id.men_salvarCadastro).setVisible(false);
+            menu.findItem(R.id.men_abreCadastro).setIcon(R.drawable.ic_expandir);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
-            case R.id.men_abreCadastro:
-                if (mFragmentSelecionado.getClass() == FragmentPresentes.class) {
-                    if (((FragmentPresentes)mFragmentSelecionado).alterarVisibilidade() == View.VISIBLE)
-                        item.setIcon(R.drawable.ic_fechar);
-                    else
-                        item.setIcon(R.drawable.ic_adicionar);
-                } else {
-                    if (((FragmentConvidados)mFragmentSelecionado).alterarVisibilidade() == View.VISIBLE)
-                        item.setIcon(R.drawable.ic_fechar);
-                    else
-                        item.setIcon(R.drawable.ic_adicionar);
-                }
-                break;
+        switch (id) {
             case R.id.men_salvarCadastro:
                 if (mFragmentSelecionado.getClass() == FragmentPresentes.class) {
-                    if (((FragmentPresentes)mFragmentSelecionado).salvarCadastro()){
+                    if (((FragmentPresentes) mFragmentSelecionado).salvarCadastro()) {
                         //TODO implementar
                     }
+                } else if (((FragmentConvidados) mFragmentSelecionado).salvarCadastro()) {
+                    //TODO implementar
                 }
                 break;
+            case R.id.men_abreCadastro:
+                if (mFragmentSelecionado.getClass() == FragmentPresentes.class)
+                    mLayoutIsVisible = ((FragmentPresentes) mFragmentSelecionado).alterarVisibilidade();
+                else
+                    mLayoutIsVisible = ((FragmentConvidados) mFragmentSelecionado).alterarVisibilidade();
+                break;
         }
+
+        invalidateOptionsMenu();
 
         return super.onOptionsItemSelected(item);
     }
@@ -115,7 +143,7 @@ public class ActivityPrincipal extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.nav_presente:
                 instanciarFragment(new FragmentPresentes());
                 break;

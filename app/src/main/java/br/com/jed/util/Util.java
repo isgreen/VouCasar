@@ -2,8 +2,10 @@ package br.com.jed.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import java.text.ParseException;
@@ -17,7 +19,7 @@ import br.com.jed.voucasar.R;
  */
 public class Util {
 
-    public static void esconderTeclado(AppCompatActivity activity) {
+    public static void esconderTeclado(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
@@ -48,5 +50,10 @@ public class Util {
         AlertDialog dialog = builder.create();
         dialog.setTitle(titulo);
         dialog.show();
+    }
+
+    public static void showSnackMessage(Activity activity, View view, String mensagem){
+        Util.esconderTeclado(activity);
+        Snackbar.make(view, mensagem, Snackbar.LENGTH_LONG).show();
     }
 }

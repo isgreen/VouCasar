@@ -10,6 +10,10 @@ import br.com.jed.voucasar.R;
  */
 public class ValidadorUI {
 
+    public static boolean validarCampos(EditText[] listaCampos, String mensagemCampo){
+        return validarCamposNulos(listaCampos, mensagemCampo);
+    }
+
     public static boolean validarCamposNulos(EditText[] listaCampos, String mensagemCampo){
         boolean camposValidados = true;
 
