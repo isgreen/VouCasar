@@ -4,9 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_gravity="center_vertical"
     tools:context="br.com.jed.fragments.FragmentPresentes">
 
     <LinearLayout
+        android:id="@+id/llPai"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -29,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/text_descricao"
-                android:inputType="text" />
+                android:inputType="textCapWords" />
 
             <EditText
                 android:id="@+id/edtValorPresente"
@@ -37,14 +39,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/text_valor"
                 android:inputType="numberDecimal" />
-
-            <!--<ToggleButton-->
-                <!--android:id="@+id/btnInserirPresente"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="New ToggleButton"-->
-                <!--android:background="@color/colorAccent"-->
-                <!--android:textColor="@android:color/white"/>-->
 
         </LinearLayout>
 
@@ -55,13 +49,5 @@
 
     </LinearLayout>
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fabPresente"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:src="@android:drawable/ic_dialog_email"-->
-        <!--app:layout_anchor="@id/llCadastroPresente"-->
-        <!--app:layout_anchorGravity="bottom|right|end" />-->
 
 </android.support.design.widget.CoordinatorLayout>

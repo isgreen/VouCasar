@@ -12,6 +12,7 @@ public class Convidado {
     private String sobrenome;
     private String email;
     private Situacao situacao;
+    private Casamento casamento;
 
     public int getId() {
         return id;
@@ -52,4 +53,13 @@ public class Convidado {
     public void setSituacao(Situacao situacao) {
         this.situacao = situacao;
     }
+
+    public Casamento getCasamento() {
+        return casamento;
+    }
+
+    public void setCasamento(Casamento casamento) {
+        this.casamento = casamento;
+    }
+
 }

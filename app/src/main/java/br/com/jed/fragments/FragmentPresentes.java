@@ -1,14 +1,11 @@
 package br.com.jed.fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,13 +17,13 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.jed.adapters.AdapterPresente;
+import br.com.jed.enumaretors.Situacao;
 import br.com.jed.interfaces.FragmentBase;
 import br.com.jed.model.bean.Presente;
 import br.com.jed.util.Util;
 import br.com.jed.validators.ValidadorUI;
 import br.com.jed.voucasar.R;
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class FragmentPresentes extends Fragment implements FragmentBase {
 
@@ -34,7 +31,8 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
     private LinearLayout mLlCadastroPresente;
     private EditText mEdtDescricaoPresente;
     private EditText mEdtValorPresente;
-
+    private List<Presente> mPresentes;
+    private AdapterPresente mAdapterPresente;
 
     @Nullable
     @Override
@@ -45,14 +43,21 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
         mEdtDescricaoPresente = (EditText) view.findViewById(R.id.edtDescricaoPresente);
         mEdtValorPresente = (EditText) view.findViewById(R.id.edtValorPresente);
 
+        mLvPresente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mAdapterPresente.marcarDesmarcarPresente(position);
+            }
+        });
+
         mLvPresente.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getView().getContext(), R.color.colorAccent));
-//                    getActivity().getActionBar().(ContextCompat.getColor(getView().getContext(), R.color.cinzaClaro));
-                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getView().getContext(), R.color.colorAccent));
+////                    getActivity().getActionBar().(ContextCompat.getColor(getView().getContext(), R.color.cinzaClaro));
+//                }
 
                 return false;
             }
@@ -66,42 +71,48 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
         super.onResume();
 
         //TODO os codigos abaixos serao retirados
-        List<String> testeLista = new ArrayList<>();
-        testeLista.add("Panela de pressão");
-        testeLista.add("Jogo de talheres");
-        testeLista.add("Liquidificador");
+        mPresentes = new ArrayList<>();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getView().getContext(), android.R.layout.simple_list_item_1, testeLista);
-
-        mLvPresente.setAdapter(arrayAdapter);
+        mAdapterPresente = new AdapterPresente(getView().getContext(), mPresentes);
+//
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getView().getContext(), android.R.layout.simple_list_item_1, testeLista);
+//
+//        mLvPresente.setAdapter(arrayAdapter);
     }
 
     @Override
     public int alterarVisibilidade() {
         if (mLlCadastroPresente.getVisibility() == View.GONE) {
             mLlCadastroPresente.setVisibility(View.VISIBLE);
-        }
-        else
+            mEdtDescricaoPresente.requestFocus();
+        } else {
             mLlCadastroPresente.setVisibility(View.GONE);
+            Util.esconderTeclado(getActivity());
+        }
 
         return mLlCadastroPresente.getVisibility();
     }
 
     @Override
     public boolean salvarCadastro() {
-        Presente presente;
 
         if (validarCampos()) {
-            presente = (Presente) getDadosFromUI();
+            mPresentes.add((Presente) getDadosFromUI());
+            alimentarListView();
             limparCampos();
         }
         return true;
+    }
+
+    private void alimentarListView() {
+        mLvPresente.setAdapter(mAdapterPresente);
     }
 
     @Override
     public void limparCampos() {
         mEdtDescricaoPresente.setText("");
         mEdtValorPresente.setText("");
+        mEdtDescricaoPresente.requestFocus();
     }
 
     @Override
@@ -110,6 +121,7 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
 
         presente.setDescricao(mEdtDescricaoPresente.getText().toString());
         presente.setValor(Float.valueOf(mEdtValorPresente.getText().toString()));
+        presente.setSituacao(Situacao.ABERTO);
 
         return presente;
     }

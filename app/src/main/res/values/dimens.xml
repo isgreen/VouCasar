@@ -7,4 +7,7 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="distancia_edit">10dp</dimen>
+
+    <dimen name="texto_grande">20dp</dimen>
+    <dimen name="texto_normal">16dp</dimen>
 </resources>

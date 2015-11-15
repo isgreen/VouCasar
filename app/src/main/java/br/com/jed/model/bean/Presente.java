@@ -11,6 +11,24 @@ public class Presente {
     private String descricao;
     private float valor;
     private Situacao situacao;
+    private Casamento casamento;
+    private Convidado convidado;
+
+    public Casamento getCasamento() {
+        return casamento;
+    }
+
+    public void setCasamento(Casamento casamento) {
+        this.casamento = casamento;
+    }
+
+    public Convidado getConvidado() {
+        return convidado;
+    }
+
+    public void setConvidado(Convidado convidado) {
+        this.convidado = convidado;
+    }
 
     public int getId() {
         return id;

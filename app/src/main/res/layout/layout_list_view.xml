@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="8dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="8dp">
+
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/ciwPresenteMarcado"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/ic_check"-->
+        <!--app:civ_border_width="2dp"-->
+        <!--app:civ_border_color="@color/colorAccent"-->
+        <!--android:background="@color/colorAccent"-->
+        <!--android:visibility="gone"/>-->
+
+
+    <TextView
+        android:id="@+id/txtItemMarcado"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_check_azul"
+        android:layout_marginTop="7dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/txtPrincipal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/txtItemMarcado"
+        android:text="Principal"
+        android:textSize="@dimen/texto_grande"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/txtDetalhe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/txtItemMarcado"
+        android:layout_below="@id/txtPrincipal"
+        android:text="Detalhe"
+        android:textSize="@dimen/texto_normal" />
+
+</RelativeLayout>
