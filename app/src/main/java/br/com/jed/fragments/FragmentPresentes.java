@@ -1,15 +1,13 @@
 package br.com.jed.fragments;
 
 import android.app.Fragment;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,6 +19,7 @@ import br.com.jed.adapters.AdapterPresente;
 import br.com.jed.enumaretors.Situacao;
 import br.com.jed.interfaces.FragmentBase;
 import br.com.jed.model.bean.Presente;
+import br.com.jed.task.TaskEnviaPresente;
 import br.com.jed.util.Util;
 import br.com.jed.validators.ValidadorUI;
 import br.com.jed.voucasar.R;
@@ -33,6 +32,8 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
     private EditText mEdtValorPresente;
     private List<Presente> mPresentes;
     private AdapterPresente mAdapterPresente;
+    private FloatingActionButton mFabEnviar;
+    private List<Presente> mPresentesParaEnviar;
 
     @Nullable
     @Override
@@ -72,6 +73,7 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
 
         //TODO os codigos abaixos serao retirados
         mPresentes = new ArrayList<>();
+        mPresentesParaEnviar = new ArrayList<>();
 
         mAdapterPresente = new AdapterPresente(getView().getContext(), mPresentes);
 //
@@ -123,6 +125,8 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
         presente.setValor(Float.valueOf(mEdtValorPresente.getText().toString()));
         presente.setSituacao(Situacao.ABERTO);
 
+        mPresentesParaEnviar.add(presente);
+
         return presente;
     }
 
@@ -141,6 +145,14 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
             Util.showSnackMessage(getActivity(), getView(), mensagemErro);
 
         return camposValidos;
+    }
+
+    public void enviarPresentes() {
+        if (mPresentesParaEnviar.size() > 0) {
+            TaskEnviaPresente tskEnviaPresentes = new TaskEnviaPresente(
+                    getActivity(), mPresentesParaEnviar, "http://endereco");
+            tskEnviaPresentes.execute();
+        }
     }
 
 //    // TODO: Rename parameter arguments, choose names that match

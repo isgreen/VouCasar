@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +20,7 @@ import br.com.jed.enumaretors.TipoUsuario;
 import br.com.jed.fragments.FragmentConvidados;
 import br.com.jed.fragments.FragmentPresentes;
 import br.com.jed.model.bean.Usuario;
+import br.com.jed.task.TaskEnviaPresente;
 
 public class ActivityPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,6 +31,7 @@ public class ActivityPrincipal extends AppCompatActivity
     private Fragment mFragmentSelecionado;
     private int mLayoutIsVisible = View.GONE;
     private NavigationView mNavigationView;
+    private FloatingActionButton mFabEnviar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,15 @@ public class ActivityPrincipal extends AppCompatActivity
         instanciarFragment(new FragmentPresentes());
 
         //E no onResume(), deve TALVEZ seja iniciado o Fragment que o usuario selecionou no navigation drawer.
+
+        mFabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviar);
+
+        mFabEnviar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((FragmentPresentes) mFragmentSelecionado).enviarPresentes();
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
