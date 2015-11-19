@@ -11,18 +11,18 @@ import java.util.List;
 import br.com.jed.util.Util;
 
 /**
- * Created by Wolfstein on 15/11/2015.
+ * Created by Wolfstein on 16/11/2015.
  */
-public class TaskEnviaPresente extends AsyncTask<Integer, Double, String> {
+public class TaskEnviarDados extends AsyncTask<Integer, Double, String> {
 
     private Context mContexto;
-    private List mPresentes;
+    private List mListaDados;
     private ProgressDialog mProgresso;
     private String mUrl;
 
-    public TaskEnviaPresente(Context contexto, List presentes, String url) {
+    public TaskEnviarDados(Context contexto, List presentes, String url) {
         mContexto = contexto;
-        mPresentes = presentes;
+        mListaDados = presentes;
         mUrl = url;
     }
 
@@ -31,7 +31,7 @@ public class TaskEnviaPresente extends AsyncTask<Integer, Double, String> {
         super.onPreExecute();
 
         mProgresso = ProgressDialog.show(mContexto, "Enviando...",
-                "Aguarde enquanto a lista dos presentes adicionados é enviada.", true, false);
+                "Aguarde enquanto os dados são enviados.", true, false);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TaskEnviaPresente extends AsyncTask<Integer, Double, String> {
 
         Gson gson = new Gson();
 
-        String json = gson.toJson(mPresentes);
+        String json = gson.toJson(mListaDados);
 
         //TODO Aqui terá o metodo que Post que vai mandar o "json" por parâmetro
 

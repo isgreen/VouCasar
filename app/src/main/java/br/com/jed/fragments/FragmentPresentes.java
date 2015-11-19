@@ -2,8 +2,8 @@ package br.com.jed.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,26 +14,37 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import br.com.jed.adapters.AdapterPresente;
 import br.com.jed.enumaretors.Situacao;
+import br.com.jed.enumaretors.TipoUsuario;
 import br.com.jed.interfaces.FragmentBase;
 import br.com.jed.model.bean.Presente;
-import br.com.jed.task.TaskEnviaPresente;
+import br.com.jed.model.bean.Usuario;
+import br.com.jed.task.TaskEnviarDados;
 import br.com.jed.util.Util;
 import br.com.jed.validators.ValidadorUI;
 import br.com.jed.voucasar.R;
 
 public class FragmentPresentes extends Fragment implements FragmentBase {
 
+    private TipoUsuario mTipoUsuario;
     private ListView mLvPresente;
     private LinearLayout mLlCadastroPresente;
     private EditText mEdtDescricaoPresente;
     private EditText mEdtValorPresente;
     private List<Presente> mPresentes;
     private AdapterPresente mAdapterPresente;
-    private FloatingActionButton mFabEnviar;
     private List<Presente> mPresentesParaEnviar;
+
+    public FragmentPresentes() {
+        // Required empty public constructor
+    }
+
+    public FragmentPresentes(TipoUsuario tipoUsuario) {
+        mTipoUsuario = tipoUsuario;
+    }
 
     @Nullable
     @Override
@@ -47,7 +58,8 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
         mLvPresente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mAdapterPresente.marcarDesmarcarPresente(position);
+                if (mTipoUsuario.equals(TipoUsuario.CONVIDADO))
+                    mAdapterPresente.marcarDesmarcarPresente(position);
             }
         });
 
@@ -76,10 +88,6 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
         mPresentesParaEnviar = new ArrayList<>();
 
         mAdapterPresente = new AdapterPresente(getView().getContext(), mPresentes);
-//
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getView().getContext(), android.R.layout.simple_list_item_1, testeLista);
-//
-//        mLvPresente.setAdapter(arrayAdapter);
     }
 
     @Override
@@ -97,7 +105,6 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
 
     @Override
     public boolean salvarCadastro() {
-
         if (validarCampos()) {
             mPresentes.add((Presente) getDadosFromUI());
             alimentarListView();
@@ -106,15 +113,15 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
         return true;
     }
 
-    private void alimentarListView() {
-        mLvPresente.setAdapter(mAdapterPresente);
-    }
-
     @Override
     public void limparCampos() {
         mEdtDescricaoPresente.setText("");
         mEdtValorPresente.setText("");
         mEdtDescricaoPresente.requestFocus();
+    }
+
+    private void alimentarListView() {
+        mLvPresente.setAdapter(mAdapterPresente);
     }
 
     @Override
@@ -149,9 +156,9 @@ public class FragmentPresentes extends Fragment implements FragmentBase {
 
     public void enviarPresentes() {
         if (mPresentesParaEnviar.size() > 0) {
-            TaskEnviaPresente tskEnviaPresentes = new TaskEnviaPresente(
+            TaskEnviarDados tskEnviarDados = new TaskEnviarDados(
                     getActivity(), mPresentesParaEnviar, "http://endereco");
-            tskEnviaPresentes.execute();
+            tskEnviarDados.execute();
         }
     }
 

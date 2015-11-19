@@ -1,5 +1,6 @@
 package br.com.jed.voucasar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,15 +10,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import br.com.jed.enumaretors.TipoUsuario;
 import br.com.jed.model.bean.Usuario;
+import br.com.jed.task.TaskCarregarDados;
 import br.com.jed.util.Util;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ActivityLogin extends AppCompatActivity {
 
-    private Usuario mUsuarioSelecionado;
+    private Usuario mUsuarioSelecionado = null;
+    private Usuario mUsuarioInformado = null;
     private TipoUsuario mTipoUsuario;
     @Bind(R.id.edtEmail)
     EditText mEdtEmail;
@@ -35,23 +40,14 @@ public class ActivityLogin extends AppCompatActivity {
         TextView txtTitulo = (TextView) findViewById(R.id.txtTitulo);
         txtTitulo.setTypeface(fonte);
 
-        //Vai chamar um WebClient, passando o Usario por padrao
-        //Se for valido, a linha abaixo será executada
-
         Button btnEntrar = (Button) findViewById(R.id.btnEntrar);
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (validarUsuario()) {
-                    Intent itLogar = new Intent(ActivityLogin.this, ActivityPrincipal.class);
-//                    itLogar.putExtra("UsuarioLogado", mUsuarioSelecionado);
-//                    itLogar.putExtra("TipoUsuario", mTipoUsuario);
-                itLogar.putExtra("UsuarioLogado", new Usuario());
-                itLogar.putExtra("TipoUsuario", TipoUsuario.CASAL);
-                    startActivity(itLogar);
-//                }
+                getUsuarioInformado();
 
-//                startActivity(new Intent(ActivityLogin.this, ActivityPrincipal.class));
+                if (validarCampoNulo())
+                    consultarUsuario();
             }
         });
 
@@ -64,49 +60,76 @@ public class ActivityLogin extends AppCompatActivity {
         });
     }
 
-    private boolean validarUsuario() {
-        /**
-         * O método getUsuarioInformado(), retorna um BEAN de usuario, com os dados digitados na tela.
-         */
-        Usuario usuarioInformado = getUsuarioInformado();
+    private boolean validarCampoNulo() {
+        boolean todosValidados = true;
 
-        /**
-         * Verifica se existe algum campo vazio.
-         */
-        if (usuarioInformado.getEmail().isEmpty() || usuarioInformado.getSenhaPrivada().isEmpty()) {
+        if (mUsuarioInformado.getEmail().isEmpty() || mUsuarioInformado.getSenhaPrivada().isEmpty()) {
             Util.showMessage("Acesso", "Usuário ou senha não informado.", this);
-            return false;
+            todosValidados = false;
         }
 
+        return todosValidados;
+    }
 
+    private void consultarUsuario() {
         // TODO Será implementado um método GET no WS, para trazer o usuario, caso esteja correto.
 //        UsuarioWS usuarioWS = new UsuarioWS(this);
 //        mUsuarioSelecionado = usuarioWS.selecionarPorLogin(usuarioInformado.getLogin().toLowerCase());
 
+        new TaskCarregarDados("http://consulta") {
+
+            ProgressDialog iProgresso;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                iProgresso = ProgressDialog.show(ActivityLogin.this, "Aguarde...", "Verificando usuário informado.");
+            }
+
+            @Override
+            protected void onPostExecute(String retorno) {
+                super.onPostExecute(retorno);
+
+                iProgresso.dismiss();
+                if (!retorno.isEmpty()) {
+                    mUsuarioSelecionado = new Gson().fromJson(retorno, Usuario.class);
+                    if (validarUsuario()) {
+                        invocarIntent();
+                    }
+                }
+            }
+        }.execute();
+    }
+
+    private void invocarIntent() {
+        Intent itLogar = new Intent(ActivityLogin.this, ActivityPrincipal.class);
+        itLogar.putExtra("UsuarioLogado", mUsuarioSelecionado);
+        itLogar.putExtra("TipoUsuario", mTipoUsuario);
+        startActivity(itLogar);
+    }
+
+    private void getUsuarioInformado() {
+        mUsuarioInformado = new Usuario();
+
+        mUsuarioInformado.setEmail(mEdtEmail.getText().toString());
+        mUsuarioInformado.setSenhaPrivada(mEdtSenha.getText().toString());
+        mUsuarioInformado.setSenhaConvidados(mEdtSenha.getText().toString());
+    }
+
+    private boolean validarUsuario() {
         if (mUsuarioSelecionado == null) {
             Util.showMessage("Acesso", "Usuário não encontrado.", this);
             return false;
-        } else if (!mUsuarioSelecionado.getSenhaPrivada().equals(usuarioInformado.getSenhaPrivada().toString()) ||
-                !mUsuarioSelecionado.getSenhaConvidados().equals(usuarioInformado.getSenhaConvidados().toString())) {
-            Util.showMessage("Acesso", "Senha incorreta.", this);
-            return false;
-            //Se for Usuario Casal
-        } else if (mUsuarioSelecionado.getSenhaPrivada().equals(usuarioInformado.getSenhaPrivada().toString())) {
+        } else if (mUsuarioSelecionado.getSenhaPrivada().toString().equals(mUsuarioInformado.getSenhaPrivada().toString())) {
             mTipoUsuario = TipoUsuario.CASAL;
             return true;
-        } else { // Se for Convidado
+        } else if (mUsuarioSelecionado.getSenhaConvidados().toString().equals(mUsuarioInformado.getSenhaConvidados().toString())) {
             mTipoUsuario = TipoUsuario.CONVIDADO;
             return true;
+        } else { // Se for Convidado
+            Util.showMessage("Acesso", "Senha incorreta.", this);
+            return false;
         }
-    }
-
-    private Usuario getUsuarioInformado() {
-        Usuario usuario = new Usuario();
-
-        usuario.setEmail(mEdtEmail.getText().toString());
-        usuario.setSenhaPrivada(mEdtEmail.getText().toString());
-        usuario.setSenhaConvidados(mEdtSenha.getText().toString());
-
-        return usuario;
     }
 }

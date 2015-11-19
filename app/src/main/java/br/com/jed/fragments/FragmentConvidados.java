@@ -1,12 +1,11 @@
 package br.com.jed.fragments;
 
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -14,9 +13,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.jed.adapters.AdapterConvidado;
 import br.com.jed.enumaretors.Situacao;
 import br.com.jed.interfaces.FragmentBase;
 import br.com.jed.model.bean.Convidado;
+import br.com.jed.task.TaskEnviarDados;
 import br.com.jed.util.Util;
 import br.com.jed.validators.ValidadorUI;
 import br.com.jed.voucasar.R;
@@ -31,6 +32,9 @@ public class FragmentConvidados extends Fragment implements FragmentBase {
     private EditText mEdtNomeConvidado;
     private EditText mEdtSobrenomeConvidado;
     private EditText mEdtEmailConvidado;
+    private List<Convidado> mConvidados;
+    private List<Convidado> mConvidadosParaEnviar;
+    private AdapterConvidado mAdapterConvidado;
 
     public FragmentConvidados() {
         // Required empty public constructor
@@ -56,22 +60,16 @@ public class FragmentConvidados extends Fragment implements FragmentBase {
         super.onResume();
 
         //TODO os codigos abaixos serao retirados
-        List<String> testeLista = new ArrayList<>();
-        testeLista.add("Danilo Carvalho");
-        testeLista.add("Éverdes Soares");
-        testeLista.add("Renan Frutuozo");
-        testeLista.add("Jair Atirador");
+        mConvidados = new ArrayList<>();
+        mConvidadosParaEnviar = new ArrayList<>();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getView().getContext(), android.R.layout.simple_list_item_1, testeLista);
-
-        mLvConvidado.setAdapter(arrayAdapter);
+        mAdapterConvidado = new AdapterConvidado(getView().getContext(), mConvidados);
     }
 
     public int alterarVisibilidade() {
         if (mLlCadastroConvidado.getVisibility() == View.GONE) {
             mLlCadastroConvidado.setVisibility(View.VISIBLE);
-        }
-        else
+        } else
             mLlCadastroConvidado.setVisibility(View.GONE);
 
         return mLlCadastroConvidado.getVisibility();
@@ -79,13 +77,16 @@ public class FragmentConvidados extends Fragment implements FragmentBase {
 
     @Override
     public boolean salvarCadastro() {
-        Convidado convidado;
-
         if (validarCampos()) {
-            convidado = (Convidado) getDadosFromUI();
+            mConvidados.add((Convidado) getDadosFromUI());
+            alimentarListView();
             limparCampos();
         }
         return true;
+    }
+
+    private void alimentarListView() {
+        mLvConvidado.setAdapter(mAdapterConvidado);
     }
 
     public Object getDadosFromUI() {
@@ -95,6 +96,8 @@ public class FragmentConvidados extends Fragment implements FragmentBase {
         convidado.setSobrenome(mEdtSobrenomeConvidado.getText().toString());
         convidado.setEmail(mEdtEmailConvidado.getText().toString());
         convidado.setSituacao(Situacao.CONFIRMADO);
+
+        mConvidadosParaEnviar.add(convidado);
 
         return convidado;
     }
@@ -121,5 +124,13 @@ public class FragmentConvidados extends Fragment implements FragmentBase {
         mEdtNomeConvidado.setText("");
         mEdtSobrenomeConvidado.setText("");
         mEdtEmailConvidado.setText("");
+    }
+
+    public void enviarConvidados() {
+        if (mConvidadosParaEnviar.size() > 0) {
+            TaskEnviarDados tskEnviarDados = new TaskEnviarDados(
+                    getActivity(), mConvidadosParaEnviar, "http://endereco");
+            tskEnviarDados.execute();
+        }
     }
 }

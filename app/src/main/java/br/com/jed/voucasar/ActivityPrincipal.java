@@ -20,7 +20,6 @@ import br.com.jed.enumaretors.TipoUsuario;
 import br.com.jed.fragments.FragmentConvidados;
 import br.com.jed.fragments.FragmentPresentes;
 import br.com.jed.model.bean.Usuario;
-import br.com.jed.task.TaskEnviaPresente;
 
 public class ActivityPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,22 +39,22 @@ public class ActivityPrincipal extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Aqui provavelmente será inicializado um fragment, com a lista de presentes, pois ela deve
-        // aparecer tanto para o casal, como para o convidado.
-
         mUsuarioSelecionado = (Usuario) getIntent().getSerializableExtra("UsuarioLogado");
         mTipoUsuario = (TipoUsuario) getIntent().getSerializableExtra("TipoUsuario");
 
-        instanciarFragment(new FragmentPresentes());
+        instanciarFragment(new FragmentPresentes(mTipoUsuario));
 
-        //E no onResume(), deve TALVEZ seja iniciado o Fragment que o usuario selecionou no navigation drawer.
+        //TODO no onResume(), deve TALVEZ seja iniciado o Fragment que o usuario selecionou no navigation drawer.
 
         mFabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviar);
 
         mFabEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((FragmentPresentes) mFragmentSelecionado).enviarPresentes();
+                if (mFragmentSelecionado.getClass() == FragmentPresentes.class)
+                    ((FragmentPresentes) mFragmentSelecionado).enviarPresentes();
+                else
+                    ((FragmentConvidados) mFragmentSelecionado).enviarConvidados();
             }
         });
 
@@ -84,7 +83,6 @@ public class ActivityPrincipal extends AppCompatActivity
 
         transaction.replace(R.id.rlPrincipal, mFragmentSelecionado);
         transaction.setCustomAnimations(android.R.anim.accelerate_decelerate_interpolator, android.R.anim.slide_out_right);
-//        transaction.add(R.id.frgPrincipal, fragmentPresentes);
 
         transaction.commit();
     }
@@ -114,7 +112,7 @@ public class ActivityPrincipal extends AppCompatActivity
         if (mLayoutIsVisible == View.VISIBLE) {
             menu.findItem(R.id.men_salvarCadastro).setVisible(true);
 //            if (mTipoUsuario == TipoUsuario.CASAL)
-                menu.findItem(R.id.men_abreCadastro).setIcon(R.drawable.ic_recolher);
+            menu.findItem(R.id.men_abreCadastro).setIcon(R.drawable.ic_recolher);
         } else {
             menu.findItem(R.id.men_salvarCadastro).setVisible(false);
             menu.findItem(R.id.men_abreCadastro).setIcon(R.drawable.ic_expandir);
@@ -131,10 +129,10 @@ public class ActivityPrincipal extends AppCompatActivity
             case R.id.men_salvarCadastro:
                 if (mFragmentSelecionado.getClass() == FragmentPresentes.class) {
                     if (((FragmentPresentes) mFragmentSelecionado).salvarCadastro()) {
-                        //TODO implementar
+                        //TODO implementar task de atualização da lista de presentes
                     }
                 } else if (((FragmentConvidados) mFragmentSelecionado).salvarCadastro()) {
-                    //TODO implementar
+                    //TODO implementar task de ataulização da lista de convidados
                 }
                 break;
             case R.id.men_abreCadastro:
@@ -157,7 +155,7 @@ public class ActivityPrincipal extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_presente:
-                instanciarFragment(new FragmentPresentes());
+                instanciarFragment(new FragmentPresentes(mTipoUsuario));
                 break;
             case R.id.nav_convidados:
                 instanciarFragment(new FragmentConvidados());
